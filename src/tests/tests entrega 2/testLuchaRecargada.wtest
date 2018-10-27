@@ -1,0 +1,67 @@
+import hechiceriaRecargada.*
+import Artefactos.*
+
+describe "PRUEBA TEST 5" {
+
+var fechaDeHoy = new Date ()	
+
+var espadaDelDestino = new ArmaDelDestino (fechaDeHoy,1)
+var mascaraOscura = new Mascara (1,fechaDeHoy,1)
+var collarDivino = new CollarDivino(fechaDeHoy,1)
+var rolando = new Personaje (hechizoIneficiente,[espadaDelDestino,collarDivino,mascaraOscura],100)
+
+test "Valor de lucha es 1 cuando no tiene artefactos" {
+	rolando.removerArtefacto(espadaDelDestino)
+	rolando.removerArtefacto(collarDivino)
+	rolando.removerArtefacto(mascaraOscura)
+	
+	assert.equals(1,rolando.valorDeLucha())
+
+}
+
+
+test " la habilidad para la lucha de Rolando con todos los artefactos da 13"{
+	assert.equals(13,rolando.valorDeLucha())
+}
+
+test "Cambiar la cantidad de perlas del collar divino a 3. valor da 11"{
+	collarDivino.perlas(3)
+	assert.equals(11,rolando.valorDeLucha()
+	)
+}
+
+test "Cambiar el valor base para la lucha de Rolando a 8, la habilidad da 20"{
+	rolando.valorBaseLucha(8)
+	assert.equals(20,rolando.valorDeLucha())
+}
+
+test "eclipsar, valor de mascara oscura da 5"{
+	eclipse.eclipsar()
+	assert.equals(5,mascaraOscura.aporte())
+}
+
+test "el valor de lucha da 9 cuando no tiene la mascara"{
+	rolando.removerArtefacto(mascaraOscura)
+	assert.equals(9,rolando.valorDeLucha())
+}
+
+test "el aporte de la mascara oscura da 4 cuando la mascara tiene indice 0"{
+	mascaraOscura.indiceDeOscuridad(0)
+	assert.equals(4,mascaraOscura.aporte())
+}
+
+test "el aporte de la mascara oscura da 2 cuando su indice es 0 y el minimo es 2"{
+	mascaraOscura.indiceDeOscuridad(0)
+	mascaraOscura.minimo(2)
+	assert.equals(2,mascaraOscura.aporte())
+}
+
+
+
+
+
+
+
+
+
+}

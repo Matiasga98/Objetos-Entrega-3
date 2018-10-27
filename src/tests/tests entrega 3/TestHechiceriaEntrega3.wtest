@@ -1,0 +1,23 @@
+import hechiceriaRecargada.*
+
+describe "PRUEBA TEST PUNTO 1 ENTREGA 3" {
+
+var hechizoComercial = new HechizoComercial ("el hechizo comercial",20,2)	
+var espectroMalefico = new Logos ("espectro malefico" ,1)
+var furibunda = new Personaje (hechizoComercial,[],20)
+
+test "El nivel de hechiceria de furibunda es 29" {
+	assert.equals(29,furibunda.nivelDeHechiceria())
+}
+
+
+test "no es poderoso el hechizo comercial" {
+	assert.notThat(hechizoComercial.poderoso())
+
+}
+
+test " es poderoso el espectro malefico" {
+	assert.that(espectroMalefico.poderoso())
+
+}
+}

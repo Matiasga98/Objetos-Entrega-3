@@ -1,0 +1,100 @@
+import hechiceriaRecargada.*
+import Artefactos.*
+import Comerciantes.*
+
+
+describe "PRUEBA TEST punto 2 entrega 3" {
+
+var fechaDeHoy = new Date ()	 //PROBAR SIEMPRE CON LA FECHA ACTUAL
+	
+var espadaVieja = new ArmaDelDestino (new Date(7,5,2006),7)
+var espadaNueva = new ArmaDelDestino (fechaDeHoy,4) 
+var espadaComun = new ArmaDelDestino (fechaDeHoy.minusDays(50),5)
+var mascaraOscura = new Mascara (fechaDeHoy,3,1)
+var mascaraClara = new Mascara (fechaDeHoy,2,0)
+
+var cota1 = new CotaDeMalla (1)
+var armadura1 = new Armadura (cota1, 2, "pepe", fechaDeHoy, 10)
+
+var hechizoComercial = new HechizoComercial ("armadura hechizo par",20,2)	
+var hechizo1 = new Hechizo(hechizoComercial) 
+var armadura2 = new Armadura (hechizo1, 2, "pepe", fechaDeHoy, 12)
+
+
+var espectroMalefico = new Logos ("armadura hechizo imparr" ,1)
+var hechizo2 = new Hechizo(espectroMalefico)
+var armadura3= new Armadura (hechizo2, 2, "pepe", fechaDeHoy, 12) 
+
+
+var armadura4 = new Armadura (ninguno, 2, "pepe", fechaDeHoy, 12)
+
+
+var mockHnos = new Comerciante ([mascaraClara, mascaraOscura, armadura2],independiente, 0 )
+var merlin = new Personaje (hechizoIneficiente, [],10)
+var ursula = new Personaje (hechizoIneficiente, [mascaraOscura,armadura1],200)
+
+var collar = new CollarDivino(fechaDeHoy,0)
+
+
+test "peso espada vieja es 6" {
+	assert.equals(6,espadaVieja.pesoTotal())
+
+}
+test "peso espada Nueva es 4" {
+	assert.equals(4,espadaNueva.pesoTotal())
+
+}
+test "peso espada comun es 4.95" {					//en la  consigna dice /1000, en el test /100
+	assert.equals(4.95,espadaComun.pesoTotal())
+
+}
+test "peso collar divino 2.5" {
+	assert.equals(2.5,collar.pesoTotal())
+
+}
+test "peso mascara oscura es 3" {
+	mascaraOscura.minimo(0)
+	assert.equals(3,mascaraOscura.pesoTotal())
+
+}
+test "con eclipse peso mascara oscura es 5" {
+	mascaraOscura.minimo(0)
+	eclipse.eclipsar()
+	assert.equals(5,mascaraOscura.pesoTotal())
+
+}
+
+test "peso mascara clara es 2" {
+	mascaraClara.minimo(0)
+	assert.equals(2,mascaraClara.pesoTotal())
+}
+
+test "peso armadura cota de malla es 11" {
+	assert.equals(11,armadura1.pesoTotal())
+}
+
+test "peso armadura hechizo par 14" {
+	assert.equals(14,armadura2.pesoTotal())
+}
+test "peso armadura hechizo impar 13" {
+	assert.equals(13,armadura3.pesoTotal())
+}
+test "peso armadura hechizo sin refuerzo es 12" {
+	assert.equals(12,armadura4.pesoTotal())
+}
+test "peso merlin cuando compra mascaras es 5" {
+	merlin.comprarArtefacto(mascaraClara,mockHnos)
+	merlin.comprarArtefacto(mascaraOscura,mockHnos)
+	assert.equals(5,merlin.pesoTotalArtefactos())
+}
+test "merlin no puede comprar armadura par" {
+	hechizo1.perteneceA(armadura2)
+	assert.throwsExceptionWithMessage("no puede cargar con ese objeto",{merlin.comprarArtefacto(armadura2,mockHnos)})
+}
+test "Ursula carga 3 kilos cuando suelta la armadura de cota de malla" {
+	ursula.removerArtefacto(armadura1)
+	assert.equals(3,ursula.pesoTotalArtefactos())
+}
+
+
+}

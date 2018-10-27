@@ -1,0 +1,38 @@
+import hechiceriaRecargada.*
+import Artefactos.*
+import Comerciantes.*
+import NPCs.*
+
+
+
+describe "PRUEBA TEST punto 3 entrega 3" {
+
+var fechaDeHoy = new Date ()	
+var mascaraClara = new Mascara (fechaDeHoy,2,0)
+
+var navi = new NPC (hechizoIneficiente, [] , 1, facil)	
+var ashley = new NPC (hechizoIneficiente, [mascaraClara] , 20, moderado)	
+
+
+
+test "navi tiene valor de lucha 1" {
+	assert.equals(1,navi.valorDeLucha())
+	
+}
+
+test "ashley tiene valor de lucha 18"{
+	ashley.valorBaseLucha(5)
+	assert.equals(18,ashley.valorDeLucha())
+}
+
+
+test "ashley tiene valor de lucha 36 cuando es dificil"{
+	ashley.nivel(dificil)
+	ashley.valorBaseLucha(5)
+	assert.equals(36,ashley.valorDeLucha())
+}
+
+
+
+
+}

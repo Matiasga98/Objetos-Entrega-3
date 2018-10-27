@@ -1,0 +1,90 @@
+import hechiceriaRecargada.*
+import Artefactos.*
+import Comerciantes.*
+
+
+
+
+
+describe "PRUEBA TEST punto 4 entrega 3" {
+
+var fechaDeHoy = new Date ()	 //PROBAR SIEMPRE CON LA FECHA ACTUAL
+	
+var espadaVieja = new ArmaDelDestino (new Date(7,5,2006),7)
+var espadaNueva = new ArmaDelDestino (fechaDeHoy,4) 
+var espadaComun = new ArmaDelDestino (fechaDeHoy.minusDays(50),5)
+var mascaraOscura = new Mascara (fechaDeHoy,3,1)
+var mascaraClara = new Mascara (fechaDeHoy,2,0)
+
+var cota1 = new CotaDeMalla (1)
+var armadura1 = new Armadura (cota1, 2, "pepe", fechaDeHoy, 10)
+
+var hechizoComercial = new HechizoComercial ("armadura hechizo par",20,2)	
+var hechizo1 = new Hechizo(hechizoComercial) 
+var armadura2 = new Armadura (hechizo1, 2, "pepe", fechaDeHoy, 12)
+
+
+var espectroMalefico = new Logos ("armadura hechizo imparr" ,1)
+var hechizo2 = new Hechizo(espectroMalefico)
+var armadura3= new Armadura (hechizo2, 2, "pepe", fechaDeHoy, 12) 
+
+
+var armadura4 = new Armadura (ninguno, 2, "pepe", fechaDeHoy, 12)
+
+
+var mockHnos = new Comerciante ([mascaraClara, mascaraOscura, armadura2],independiente, 0 )
+var merlin = new Personaje (hechizoIneficiente, [],10)
+var ursula = new Personaje (hechizoIneficiente, [mascaraOscura,armadura1],200)
+
+var collar = new CollarDivino(fechaDeHoy,0)
+
+var pastoriza = new Comerciante ([mascaraOscura], independiente , 0.09)
+var prieto = new Comerciante ([mascaraOscura], registrado, 0)
+var fermepin = new Comerciante ([mascaraOscura], ganancias, 0)
+
+
+
+test "a ursula le quedan 89,1 monedas despues de comprarle la mascara oscura a pastoriza" {
+	ursula.comprarArtefacto(mascaraOscura,pastoriza)
+	assert.equals(89.1,ursula.monedas())
+}
+
+test "a ursula le quedan 87,9 monedas despues de comprarle la mascara oscura a prieto" {
+	ursula.comprarArtefacto(mascaraOscura,prieto)
+	assert.equals(87.9,ursula.monedas())
+}
+
+test "a ursula le quedan 88,25 monedas despues de comprarle la mascara oscura a fermepin" {
+	ganancias.minimoNoImponible(5)
+	ursula.comprarArtefacto(mascaraOscura,fermepin)
+	assert.equals(88.25,ursula.monedas())
+}
+
+test "a ursula le quedan 88.2 monedas despues de comprarle la mascara oscura a pastoriza recategoriza" {
+	pastoriza.recategorizacionCompulsiva()
+	ursula.comprarArtefacto(mascaraOscura,pastoriza)
+	assert.equals(88.2,ursula.monedas())
+}
+
+test "a ursula le quedan 87.9 monedas despues de comprarle la mascara oscura a pastoriza recategoriza 2" {
+	pastoriza.recategorizacionCompulsiva()
+	pastoriza.recategorizacionCompulsiva()
+	ursula.comprarArtefacto(mascaraOscura,pastoriza)
+	assert.equals(87.9,ursula.monedas())
+}
+
+test "a ursula le quedan 88.25 monedas despues de comprarle la mascara oscura a prieto recategoriza" {
+	ganancias.minimoNoImponible(5)
+	prieto.recategorizacionCompulsiva()
+	ursula.comprarArtefacto(mascaraOscura,prieto)
+	assert.equals(88.25,ursula.monedas())
+}
+
+test "a ursula le quedan 88.25 monedas despues de comprarle la mascara oscura a fermepin recategorizado" {
+	ganancias.minimoNoImponible(5)
+	fermepin.recategorizacionCompulsiva()
+	ursula.comprarArtefacto(mascaraOscura,fermepin)
+	assert.equals(88.25,ursula.monedas())
+}
+
+}

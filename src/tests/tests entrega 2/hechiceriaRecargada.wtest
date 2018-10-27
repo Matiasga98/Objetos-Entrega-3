@@ -1,0 +1,44 @@
+import hechiceriaRecargada.*
+
+describe "PRUEBA TEST 4" {
+
+var espectroMalefico = new Logos ("espectro malefico" ,1)
+var rolando = new Personaje (espectroMalefico,[],100)
+
+test "nivel de hechiceria es 56" {
+	
+	assert.equals(56,rolando.nivelDeHechiceria())
+
+}
+
+test "Cambiar el nombre del espectro maléfico a espectro superrecontramalefico muajajaja y nivel de hechiceria es 125xddddd"{
+	espectroMalefico.nombre("espectro superrecontramalefico muajajaja")
+	assert.equals(125,rolando.nivelDeHechiceria())
+}
+
+test "Cambiar el hechizo preferido de Rolando para que sea el hechizo básico. nivel hechiceria 35"{
+	rolando.hechizoPreferido(hechizoBasico) 
+	assert.equals(35,rolando.nivelDeHechiceria())
+
+}
+
+test "Hacer que ocurra un eclipse.nivel de hechizo 61"{
+	eclipse.eclipsar()
+	assert.equals(61,rolando.nivelDeHechiceria())
+	
+}
+test "Saber si el espectro maléfico es poderoso"{
+	assert.that(espectroMalefico.poderoso())
+}
+
+test "saber si el hechizo pepe es poderoso"{
+	espectroMalefico.nombre("pepe")
+	assert.notThat(espectroMalefico.poderoso())
+}
+
+test "el hechizo basico no es poderoso"{
+	assert.notThat(hechizoBasico.poderoso())
+}
+
+
+}

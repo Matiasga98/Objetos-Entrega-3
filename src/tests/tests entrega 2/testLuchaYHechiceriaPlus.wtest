@@ -1,0 +1,92 @@
+import hechiceriaRecargada.*
+import Artefactos.*
+
+describe "PRUEBA TEST 6" {
+	
+var fechaDeHoy = new Date()	
+var espadaDelDestino
+var mascaraOscura
+
+var armaduraRolando 
+var espejoRolando 
+var collarDivino = new CollarDivino (fechaDeHoy,1)
+
+var rolando 
+var espectroMalefico = new Logos ("espectro malefico" ,1)
+fixture {
+	espadaDelDestino = new ArmaDelDestino (fechaDeHoy,1)
+	mascaraOscura = new Mascara (1,fechaDeHoy,1)
+	armaduraRolando = new Armadura (ninguno, 2, rolando,fechaDeHoy,1)
+	espejoRolando = new Espejo (rolando,fechaDeHoy,1)
+	
+	rolando = new Personaje (espectroMalefico,[espadaDelDestino,collarDivino,mascaraOscura, armaduraRolando,espejoRolando],200)
+	espejoRolando.duenio(rolando,fechaDeHoy,1)
+	armaduraRolando.duenio(rolando,fechaDeHoy,1)
+	}
+
+
+
+
+test "esta rolando cargado" {
+	assert.that(rolando.estaCargado())
+}
+
+test "esta rolando cargado cuando se le saca la armadura" {
+	rolando.removerArtefacto(armaduraRolando)
+	assert.notThat(rolando.estaCargado())
+}
+
+test "rolando tiene habilidad de lucha 20" {
+	assert.equals(20,rolando.valorDeLucha())
+}
+
+test "la armadura de rolando tiene valor de lucha 58 si su armadura tiene bendicion"{
+	armaduraRolando.refuerzo(bendicion)
+	assert.equals(58,armaduraRolando.aporte())
+	
+}
+
+test "la armadura de rolando tiene valor de lucha 3 si tiene cota de malla"{
+	
+	var cotaDeMallaR = new CotaDeMalla (1)
+	armaduraRolando.refuerzo(cotaDeMallaR)
+	assert.equals(3,armaduraRolando.aporte())
+	
+}
+
+test "la armadura de rolando tiene valor de lucha 12 si tiene hechizo basico"{
+	var hechizoR = new Hechizo(hechizoBasico)
+	armaduraRolando.refuerzo(hechizoR)
+	assert.equals(12,armaduraRolando.aporte())
+}
+
+test "la armadura de rolando tiene valor de lucha 19 si tiene espectro malefico"{
+	var hechizoR = new Hechizo (espectroMalefico)
+	armaduraRolando.refuerzo(hechizoR)
+	assert.equals(19,armaduraRolando.aporte())
+
+}
+
+test "rolando tiene habilidad 1 cuando solo tiene espejo"{
+	rolando.artefactos().clear()
+	rolando.agregarArtefacto(espejoRolando)
+	assert.equals(1,rolando.valorDeLucha())
+}
+
+test "rolando tiene nivel de hechiceria 56 si tiene un libro con espectro malefico y el basico"{
+	var libroRolando = new LibroDeHechizos([espectroMalefico,hechizoBasico])
+	rolando.hechizoPreferido(libroRolando)
+	assert.equals(56,rolando.nivelDeHechiceria())
+}
+
+test "rolando tiene 37 de lucha cuando se agrega una armadura extra con base 5 y cota de malla de valor 6"{
+	
+	var cotaDeMallaExtra = new CotaDeMalla (6)
+	var armaduraRolando2 = new Armadura (cotaDeMallaExtra,5,rolando,fechaDeHoy,1)
+	rolando.agregarArtefacto(armaduraRolando2)
+	assert.equals(37,rolando.valorDeLucha())
+}
+
+
+
+}

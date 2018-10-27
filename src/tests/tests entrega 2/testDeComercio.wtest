@@ -1,0 +1,104 @@
+import hechiceriaRecargada.*
+import Artefactos.*
+
+describe "PRUEBA TEST 7" {
+
+var fechaDeHoy = new Date ()
+var hechizoXenia = new Logos ("alacachula cachicomula",1)
+
+var xenia = new Personaje (hechizoXenia , [],100)
+var thor = new Personaje (hechizoBasico, [],100)
+var loki = new Personaje (hechizoBasico, [],100)
+
+fixture{
+loki.monedas(5)
+}
+
+
+test "el precio del hechizo de xenia es 22" {
+	assert.equals(22,hechizoXenia.costo())
+
+}
+
+test "a xenia le quedan 100 monedas si canjea por el hechizo basico"{
+	xenia.canjearHechizo(hechizoBasico)
+	assert.equals(100,xenia.monedas())
+}
+
+test "a thor le quedan 83 monedas al canjear por el hechizo de Xenia"{
+	thor.canjearHechizo(hechizoXenia)
+	assert.equals(83,thor.monedas())
+	
+}
+
+test "a thor le quedan 90 monedas si canjea 2 veces por hechizo basico"{
+	thor.canjearHechizo(hechizoBasico)
+	thor.canjearHechizo(hechizoBasico)
+	assert.equals(90,thor.monedas())
+}
+
+test "loki no puede canjear por el hechizo de xenia"{		
+	loki.canjearHechizo(hechizoXenia)
+	assert.notThat(loki.compraExitosa())
+}
+
+test "a xenia le quedan 70,5 si compora una espada, un collar, una armadura sin refuerzo y otra armadura con cota de malla con valor 5"{
+	
+	var espada = new ArmaDelDestino (fechaDeHoy,1)
+	var armadura1 = new Armadura (ninguno,2,xenia,fechaDeHoy,1)
+	var refuerzo2 = new CotaDeMalla (5)
+	var armadura2 = new Armadura (refuerzo2,2,xenia,fechaDeHoy,1)
+	var collarDivino = new CollarDivino (fechaDeHoy,1)
+		
+	xenia.comprarArtefacto(espada)
+	xenia.comprarArtefacto(armadura1)
+	xenia.comprarArtefacto(armadura2)
+	xenia.comprarArtefacto(collarDivino)
+	assert.equals(70.5 ,xenia.monedas())
+}
+
+test "xenia tiene 4 artefactos despues de comprar... OMG cuatro artefactos"{
+	
+	var espada = new ArmaDelDestino (fechaDeHoy,1)
+	var armadura1 = new Armadura (ninguno,2,xenia,fechaDeHoy,1)
+	var refuerzo2 = new CotaDeMalla (5)
+	var armadura2 = new Armadura (refuerzo2,2,xenia,fechaDeHoy,1)
+	var collarDivino = new CollarDivino (fechaDeHoy,1)
+		
+	xenia.comprarArtefacto(espada)
+	xenia.comprarArtefacto(armadura1)
+	xenia.comprarArtefacto(armadura2)
+	xenia.comprarArtefacto(collarDivino)
+	assert.equals(4 ,xenia.artefactos().size())
+}
+
+test "a thor le quedan 74 monedas despues de comprar una armadura con bendicion y la otra con hechizo de xenia"{
+	
+	var armadura1 = new Armadura (bendicion, 2, thor,fechaDeHoy,1)
+	var hechizoThor = new Hechizo (hechizoXenia)
+	var armadura2 = new Armadura (hechizoThor, 2, thor,fechaDeHoy,1)
+	bendicion.perteneceA(armadura1)
+	hechizoThor.perteneceA(armadura2)
+		
+	thor.comprarArtefacto(armadura1)
+	thor.comprarArtefacto(armadura2)
+	assert.equals(74,thor.monedas())
+}
+
+test "loki no puede comprar el espejo"{
+	var espejoAComprar = new Espejo ("tienda",fechaDeHoy,1)
+	loki.comprarArtefacto(espejoAComprar)
+	assert.notThat(loki.compraExitosa())
+}
+
+test "a xenia le quedan 69 monedas luego de canjear su hechizo por un libro que tiene su hechizo y el basico"{
+	var libroAComprar = new LibroDeHechizos ([hechizoXenia, hechizoBasico])
+	xenia.canjearHechizo(libroAComprar)
+	assert.equals(69,xenia.monedas())
+}
+
+
+
+
+
+}
